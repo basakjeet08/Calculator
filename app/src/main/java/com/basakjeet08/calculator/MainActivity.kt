@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 var temp = "${tvInput.text}"
-                temp = "${temp.substring(0,(temp.length-1))}-"
+                temp = "${temp.substring(0,(temp.length-1))}+"
                 tvInput.text = temp
             }
         }
