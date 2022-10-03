@@ -13,7 +13,7 @@
         android:layout_height="300dp"
         android:text="@string/_0"
         android:padding="10dp"
-        android:background="@color/grey"
+        android:background="@color/lightGrey"
         android:textSize="48sp"
         android:textColor="@color/black"
         android:gravity="bottom|end"
