@@ -71,14 +71,6 @@ class MainActivity : AppCompatActivity() {
             tvInput.text = if(checkZero(tvInput)) "9" else "${tvInput.text}9"
             isLastOperator = false
         }
-
-
-
-
-
-
-
-
         btnAdd.setOnClickListener{
             if(!isLastOperator){
                 tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}+"
@@ -90,8 +82,6 @@ class MainActivity : AppCompatActivity() {
                 tvInput.text = temp
             }
         }
-
-
         btnSubtract.setOnClickListener{
             if(!isLastOperator){
                 tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}-"
@@ -103,8 +93,6 @@ class MainActivity : AppCompatActivity() {
                 tvInput.text = temp
             }
         }
-
-
         btnMultiply.setOnClickListener{
             if(!isLastOperator){
                 tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}*"
@@ -116,8 +104,6 @@ class MainActivity : AppCompatActivity() {
                 tvInput.text = temp
             }
         }
-
-
         btnDivide.setOnClickListener {
             if(!isLastOperator){
                 tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}/"
@@ -129,18 +115,11 @@ class MainActivity : AppCompatActivity() {
                 tvInput.text = temp
             }
         }
-
-
-
-
-
-
         btnEquals.setOnClickListener {
             val input = "${tvInput.text}"
             val output = operations(input)
             tvInput.text = "$output"
         }
-
         btnClear.setOnClickListener{
             tvInput.text = "0"
         }
@@ -154,14 +133,27 @@ class MainActivity : AppCompatActivity() {
         var num1 = 0.0
         var num2 = 0.0
         var prevOperator = ' '
+        var isDecimal = false
+        var deci = 10.0
         for(i in input){
             if(i == '+' || i == '-' || i == '*' || i == '/'){
                 num2 = calculate(prevOperator , num1 , num2)
                 prevOperator = i
                 num1 = 0.0
+                isDecimal = false
+                deci = 10.0
+            }
+            else if(i == '.'){
+                isDecimal = true
             }
             else{
-                num1 = num1*10 + (i-'0')
+                if(!isDecimal){
+                    num1 = num1*10 + (i-'0')
+                }
+                else{
+                    num1 += (i-'0') / deci
+                    deci*= 10.0
+                }
             }
         }
         num2 = calculate(prevOperator , num1 , num2)
