@@ -12,8 +12,7 @@ class MainActivity : AppCompatActivity() {
         startingOfProgram()
     }
     private fun startingOfProgram(){
-        var output = 0
-
+        var isLastOperator = true
         val tvInput : TextView = findViewById(R.id.tvInput)
         val btnZero : Button = findViewById(R.id.btnZero)
         val btnOne : Button = findViewById(R.id.btnOne)
@@ -33,47 +32,113 @@ class MainActivity : AppCompatActivity() {
         val btnClear : Button = findViewById(R.id.btnClear)
 
         btnZero.setOnClickListener {
-            output = output*10 + 0
             tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}0"
+            isLastOperator = false
         }
         btnOne.setOnClickListener {
-            output = output*10 + 1
             tvInput.text = if(checkZero(tvInput)) "1" else "${tvInput.text}1"
+            isLastOperator = false
         }
         btnTwo.setOnClickListener {
-            output = output*10 + 2
             tvInput.text = if(checkZero(tvInput)) "2" else "${tvInput.text}2"
+            isLastOperator = false
         }
         btnThree.setOnClickListener{
-            output = output*10 + 3
             tvInput.text = if(checkZero(tvInput)) "3" else "${tvInput.text}3"
+            isLastOperator = false
         }
         btnFour.setOnClickListener{
-            output = output*10 + 4
             tvInput.text = if(checkZero(tvInput)) "4" else "${tvInput.text}4"
+            isLastOperator = false
         }
         btnFive.setOnClickListener{
-            output = output*10 + 5
             tvInput.text = if(checkZero(tvInput)) "5" else "${tvInput.text}5"
+            isLastOperator = false
         }
         btnSix.setOnClickListener{
-            output = output*10 + 6
             tvInput.text = if(checkZero(tvInput)) "6" else "${tvInput.text}6"
+            isLastOperator = false
         }
         btnSeven.setOnClickListener{
-            output = output*10 + 7
             tvInput.text = if(checkZero(tvInput)) "7" else "${tvInput.text}7"
+            isLastOperator = false
         }
         btnEight.setOnClickListener{
-            output = output*10 + 8
             tvInput.text = if(checkZero(tvInput)) "8" else "${tvInput.text}8"
+            isLastOperator = false
         }
         btnNine.setOnClickListener{
-            output = output*10 + 9
             tvInput.text = if(checkZero(tvInput)) "9" else "${tvInput.text}9"
+            isLastOperator = false
         }
+
+
+
+
+
+
+
+
         btnAdd.setOnClickListener{
-            tvInput.text = "${tvInput.text}\n"
+            if(!isLastOperator){
+                tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}+"
+                isLastOperator = true
+            }
+            else{
+                var temp = "${tvInput.text}"
+                temp = "${temp.substring(0,(temp.length-1))}-"
+                tvInput.text = temp
+            }
+        }
+
+
+        btnSubtract.setOnClickListener{
+            if(!isLastOperator){
+                tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}-"
+                isLastOperator = true
+            }
+            else{
+                var temp = "${tvInput.text}"
+                temp = "${temp.substring(0,(temp.length-1))}-"
+                tvInput.text = temp
+            }
+        }
+
+
+        btnMultiply.setOnClickListener{
+            if(!isLastOperator){
+                tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}*"
+                isLastOperator = true
+            }
+            else{
+                var temp = "${tvInput.text}"
+                temp = "${temp.substring(0,(temp.length-1))}*"
+                tvInput.text = temp
+            }
+        }
+
+
+        btnDivide.setOnClickListener {
+            if(!isLastOperator){
+                tvInput.text = if(checkZero(tvInput)) "0" else "${tvInput.text}/"
+                isLastOperator = true
+            }
+            else{
+                var temp = "${tvInput.text}"
+                temp = "${temp.substring(0,(temp.length-1))}/"
+                tvInput.text = temp
+            }
+        }
+
+
+
+
+
+
+        btnEquals.setOnClickListener {
+            val input = "${tvInput.text}"
+            val output = operations(input)
+            tvInput.text = "$output"
         }
 
         btnClear.setOnClickListener{
@@ -85,8 +150,32 @@ class MainActivity : AppCompatActivity() {
             return true
         return false
     }
-    private fun additionNumber(num:Int) : Int{
-
-        return num
+    private fun operations(input:String):Double{
+        var num1 = 0.0
+        var num2 = 0.0
+        var prevOperator = ' '
+        for(i in input){
+            if(i == '+' || i == '-' || i == '*' || i == '/'){
+                num2 = calculate(prevOperator , num1 , num2)
+                prevOperator = i
+                num1 = 0.0
+            }
+            else{
+                num1 = num1*10 + (i-'0')
+            }
+        }
+        num2 = calculate(prevOperator , num1 , num2)
+        return num2
+    }
+    private fun calculate(operator : Char , num1:Double , num2:Double) : Double{
+        var output= 0.0
+        when(operator){
+            ' ' -> output = num1
+            '+' -> output = num1 + num2
+            '-' -> output = num1 - num2
+            '*' -> output = num1 * num2
+            '/' -> output = num2 / num1
+        }
+        return output
     }
 }
